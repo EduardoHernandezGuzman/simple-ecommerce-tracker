@@ -36,26 +36,61 @@ function render() {
 render();
 
 function deleteItem(index) {
+    dataLayer.push({
+        'event': 'remove_from_cart',
+        'ecommerce': {
+            'currency': 'USD',
+            'items': [{
+                'item_name': getItem[index].brand + ' ' + getItem[index].model,
+                'item_id': index.toString(),
+                'price': getItem[index].price,
+                'item_brand': getItem[index].brand,
+                'item_category': 'Phones',
+                'quantity': getItem[index].quantity
+            }]
+        }
+    });
     getItem.splice(index, 1);
-    localStorage.setItem('CartItem', JSON.stringify(getItem)); // Actualizar localStorage
+    localStorage.setItem('CartItem', JSON.stringify(getItem));
     render();
 }
 
 function lessQuantity(index) {
     if (getItem[index].quantity <= 1) {
-        getItem.splice(index, 1);
+        deleteItem(index);
     } else {
         getItem[index].quantity -= 1;
+        localStorage.setItem('CartItem', JSON.stringify(getItem));
+        render();
     }
-    localStorage.setItem('CartItem', JSON.stringify(getItem)); 
 }
 
 function addQuantity(index) {
     getItem[index].quantity += 1;
-    localStorage.setItem('CartItem', JSON.stringify(getItem)); 
+    localStorage.setItem('CartItem', JSON.stringify(getItem));
+    dataLayer.push({
+        'event': 'change_quantity',
+        'ecommerce': {
+            'currency': 'USD',
+            'items': [{
+                'item_name': getItem[index].brand + ' ' + getItem[index].model,
+                'item_id': index.toString(),
+                'price': getItem[index].price,
+                'item_brand': getItem[index].brand,
+                'item_category': 'Phones',
+                'quantity': getItem[index].quantity
+            }]
+        }
+    });
     render();
 }
+
+window.deleteItem = deleteItem;
+window.addQuantity = addQuantity;
+window.lessQuantity = lessQuantity;
 
 buyBtn.addEventListener('click', () => {
     window.location.href = 'payment.html';
 });
+
+render();

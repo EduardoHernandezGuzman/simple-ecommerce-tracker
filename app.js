@@ -71,6 +71,22 @@ let arr = [];
 
 function render (){
 
+    dataLayer.push({
+        'event': 'view_item_list',
+        'ecommerce': {
+            'currency': 'USD',
+            'items': phones.map((phone, index) => ({
+                'item_name': phone.brand + ' ' + phone.model,
+                'item_id': index.toString(),
+                'price': phone.price,
+                'item_brand': phone.brand,
+                'item_category': 'Phones',
+                'quantity': 1
+            }))
+        }
+    });
+
+
 for(let i=0;i<phones.length;i++){
 
     div.innerHTML += `
@@ -91,7 +107,7 @@ for(let i=0;i<phones.length;i++){
     `
 }
 }
-render();
+
 
 function addTocart(index){
 
@@ -104,10 +120,33 @@ if(arr.includes(phones[index])){
 
 }
 console.log(arr);
+
+
+dataLayer.push({
+    'event': 'add_to_cart',
+    'ecommerce': {
+        'currency': 'USD',
+        'items': [{
+            'item_name': phones[index].brand + ' ' + phones[index].model,
+            'item_id': index.toString(),
+            'price': phones[index].price,
+            'item_brand': phones[index].brand,
+            'item_category': 'Phones',
+            'quantity': phones[index].quantity
+        }]
+    }
+});
+
 }
 
-function checkCart(){
-localStorage.setItem('CartItem',JSON.stringify(arr))
-window.location='cart.html'
 
+function checkCart() {
+    dataLayer.push({'event': 'begin_checkout'}); 
+    localStorage.setItem('CartItem', JSON.stringify(arr));
+    window.location='cart.html';
 }
+
+window.addTocart = addTocart;
+window.checkCart = checkCart;
+
+render();
