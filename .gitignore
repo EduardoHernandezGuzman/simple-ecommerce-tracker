@@ -11,3 +11,5 @@ config.local.js
 
 dist/
 build/
+
+.env
