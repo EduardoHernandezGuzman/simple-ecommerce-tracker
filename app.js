@@ -1,169 +1,119 @@
 let div = document.querySelector('#div');
 const phones = [
-    {
-        brand: 'Samsung',
-        model: 'S20',
-        ram: 8,
-        rom: 256,
-        camera: '20 megapixel',
-        price: 1100,
-    },
-    {
-        brand: 'Xiomi',
-        model: 'note10',
-        ram: 4,
-        rom: 64,
-        camera: '10 megapixel',
-        price: 1300
-    },
-    {
-        brand: 'Infinix',
-        model: 'z10',
-        ram: 2,
-        rom: 16,
-        camera: '5 megapixel',
-        price: 1500
-    },
-    {
-        brand: 'Tecno',
-        model: 'spark10',
-        ram: 12,
-        rom: 512,
-        camera: '25 megapixel',
-        price: 1100
-    },
-    {
-        brand: 'Iphone',
-        model: '14',
-        ram: 4,
-        rom: 1024,
-        camera: '30 megapixel',
-        price: 1540
-    },
-    {
-        brand: 'Oppo',
-        model: 'F11',
-        ram: 8,
-        rom: 256,
-        camera: '20 megapixel',
-        price: 1450
-    },
-    {
-        brand: 'Vivo',
-        model: 'y20',
-        ram: 4,
-        rom: 64,
-        camera: '8 megapixel',
-        price: 1300
-    },
-    {
-        brand: 'Samsung',
-        model: 's50',
-        ram: 50,
-        rom: 1024,
-        camera: '60 megapixel',
-        price: 1250,
-    },
-
-
+{
+    brand: 'Samsung',
+    model: 'S20',
+    ram: 8,
+    rom: 256,
+    camera: '20 megapixel',
+    price: 1100,
+},
+{
+    brand: 'Xiomi',
+    model: 'note10',
+    ram: 4,
+    rom: 64,
+    camera: '10 megapixel',
+    price: 1300
+},
+{
+    brand: 'Infinix',
+    model: 'z10',
+    ram: 2,
+    rom: 16,
+    camera: '5 megapixel',
+    price: 1500
+},
+{
+    brand: 'Tecno',
+    model: 'spark10',
+    ram: 12,
+    rom: 512,
+    camera: '25 megapixel',
+    price: 1100
+},
+{
+    brand: 'Iphone',
+    model: '14',
+    ram: 4,
+    rom: 1024,
+    camera: '30 megapixel',
+    price: 1540
+},
+{
+    brand: 'Oppo',
+    model: 'F11',
+    ram: 8,
+    rom: 256,
+    camera: '20 megapixel',
+    price: 1450
+},
+{
+    brand: 'Vivo',
+    model: 'y20',
+    ram: 4,
+    rom: 64,
+    camera: '8 megapixel',
+    price: 1300
+},
+{
+    brand: 'Samsung',
+    model: 's50',
+    ram: 50,
+    rom: 1024,
+    camera: '60 megapixel',
+    price: 1250,
+},
 ];
 let arr = [];
+let cartCount = 0;
 
-function render (){
-
-    dataLayer.push({
-        'event': 'view_item_list',
-        'ecommerce': {
-            'currency': 'USD',
-            'items': phones.map((phone, index) => ({
-                'item_name': phone.brand + ' ' + phone.model,
-                'item_id': index.toString(),
-                'price': phone.price,
-                'item_brand': phone.brand,
-                'item_category': 'Phones',
-                'quantity': 1
-            }))
-        }
-    });
-
-
-for(let i=0; i<phones.length; i++) {
-const card = document.createElement('div');
-card.className = 'card mt-4 rounded-sm bg-dark text-white border border-white';
-card.style.width = '18rem';
-card.innerHTML = `
-    <div class="card-body">
-        <h3 class="card-title">Brand : ${phones[i].brand}</h3>
-        <h5 class="card-text">Model : ${phones[i].model}</h5>
-        <h5 class="card-text">Ram : ${phones[i].ram}</h5>
-        <h5 class="card-text">Rom : ${phones[i].rom}</h5>
-        <h5 class="card-text">Camera : ${phones[i].camera}</h5>
-        <h5 class="card-text">Price : ${phones[i].price}</h5>
-    </div>
-    <div class="card-body">
-        <button onclick="addTocart(${i})" class="btn btn-primary">Add to Cart</button>
-    </div>
-`;
-div.appendChild(card);
-}
-    Evergage.init({
-    dataset: "tck"
-}).then(() => {
-    const config = {
-        global: {
-            contentZones: [
-                { name: "phone_card", selector: ".card" }
-            ],
-            listeners: [
-                Evergage.listener("click", ".btn-primary", () => {
-                    Evergage.sendEvent({
-                        action: "Checkout Button Clicked"
-                    });
-                })
-            ]
-        }
-    };
-    Evergage.initSitemap(config);
-});
-}
-}
-
-
-function addTocart(index){
-
-if(arr.includes(phones[index])){
-    phones[index].quantity += 1;
-
-}else{
-    phones[index].quantity = 1
-    arr.push(phones[index]);
-
-}
-console.log(arr);
-
-
-dataLayer.push({
-    'event': 'add_to_cart',
-    'ecommerce': {
-        'currency': 'USD',
-        'items': [{
-            'item_name': phones[index].brand + ' ' + phones[index].model,
-            'item_id': index.toString(),
-            'price': phones[index].price,
-            'item_brand': phones[index].brand,
-            'item_category': 'Phones',
-            'quantity': phones[index].quantity
-        }]
+function render() {
+let content = '';
+for (let i = 0; i < phones.length; i++) {
+    if (i % 2 === 0) {
+        content += '<div class="row justify-content-center">';
     }
-});
 
+    content += `
+    <div class="col-md-5 mb-4 d-flex align-items-stretch">
+        <div class="card mt-4 rounded-sm bg-dark text-white border border-white w-100">
+            <div class="card-body d-flex flex-column">
+                <h3 class="card-title">Brand : ${phones[i].brand}</h3>
+                <h5 class="card-text">Model : ${phones[i].model}</h5>
+                <h5 class="card-text">Ram : ${phones[i].ram}</h5>
+                <h5 class="card-text">Rom : ${phones[i].rom}</h5>
+                <h5 class="card-text">Camera : ${phones[i].camera}</h5>
+                <h5 class="card-text">Price : ${phones[i].price}</h5>
+                <div class="mt-auto">
+                    <button onclick="addTocart(${i})" class="btn btn-primary">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+    if (i % 2 === 1 || i === phones.length - 1) {
+        content += '</div>';
+    }
+}
+div.innerHTML = content;
 }
 
+function addTocart(index) {
+if (arr.includes(phones[index])) {
+    phones[index].quantity += 1;
+} else {
+    phones[index].quantity = 1;
+    arr.push(phones[index]);
+}
+cartCount++;
+document.getElementById('cart-count').textContent = cartCount;
+console.log(arr);
+}
 
 function checkCart() {
-    dataLayer.push({'event': 'begin_checkout'}); 
-    localStorage.setItem('CartItem', JSON.stringify(arr));
-    window.location='cart.html';
+localStorage.setItem('CartItem', JSON.stringify(arr));
+window.location = 'cart.html';
 }
 
 window.addTocart = addTocart;
