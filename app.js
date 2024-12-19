@@ -88,22 +88,23 @@ function render (){
 
 
 for(let i=0; i<phones.length; i++) {
-    div.innerHTML += `
-        <div class="card mt-4 rounded-sm bg-dark text-white border border-white " style="width: 18rem;">
+const card = document.createElement('div');
+card.className = 'card mt-4 rounded-sm bg-dark text-white border border-white';
+card.style.width = '18rem';
+card.innerHTML = `
     <div class="card-body">
-      <h3 class="card-title">Brand : ${phones[i].brand}</h3>
-      <h5 class="card-text">Model : ${phones[i].model}</h5>
-      <h5 class="card-text">Ram : ${phones[i].ram}</h5>
-      <h5 class="card-text">Rom : ${phones[i].rom}</h5>
-      <h5 class="card-text">Camera : ${phones[i].camera}</h5>
-      <h5 class="card-text">Price : ${phones[i].price}</h5>
+        <h3 class="card-title">Brand : ${phones[i].brand}</h3>
+        <h5 class="card-text">Model : ${phones[i].model}</h5>
+        <h5 class="card-text">Ram : ${phones[i].ram}</h5>
+        <h5 class="card-text">Rom : ${phones[i].rom}</h5>
+        <h5 class="card-text">Camera : ${phones[i].camera}</h5>
+        <h5 class="card-text">Price : ${phones[i].price}</h5>
     </div>
     <div class="card-body">
-      <button onclick="addTocart(${i})" class="btn btn-primary">Add to Cart</button>
+        <button onclick="addTocart(${i})" class="btn btn-primary">Add to Cart</button>
     </div>
-  </div>    
-    
-    `
+`;
+div.appendChild(card);
 }
     Evergage.init({
     dataset: "tck"
