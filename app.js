@@ -87,10 +87,9 @@ function render (){
     });
 
 
-for(let i=0;i<phones.length;i++){
-
+for(let i=0; i<phones.length; i++) {
     div.innerHTML += `
-    <div class="card mt-4 rounded-sm bg-dark text-white border border-white " style="width: 18rem;">
+        <div class="card mt-4 rounded-sm bg-dark text-white border border-white " style="width: 18rem;">
     <div class="card-body">
       <h3 class="card-title">Brand : ${phones[i].brand}</h3>
       <h5 class="card-text">Model : ${phones[i].model}</h5>
@@ -105,6 +104,26 @@ for(let i=0;i<phones.length;i++){
   </div>    
     
     `
+}
+    Evergage.init({
+    dataset: "tck"
+}).then(() => {
+    const config = {
+        global: {
+            contentZones: [
+                { name: "phone_card", selector: ".card" }
+            ],
+            listeners: [
+                Evergage.listener("click", ".btn-primary", () => {
+                    Evergage.sendEvent({
+                        action: "Checkout Button Clicked"
+                    });
+                })
+            ]
+        }
+    };
+    Evergage.initSitemap(config);
+});
 }
 }
 
